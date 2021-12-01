@@ -20,6 +20,7 @@
       </div>
       <button type="button" id="solve_btn">Solve</button>
       <p id="result"></p>
+      <button type="button" id="copy_btn" style="display: none;">Copy</button>
     </form>
   </body>
 
@@ -31,6 +32,8 @@
 
     var file_input = document.getElementById('file_input');
     var text_input = document.getElementById('text_input');
+    var solution = '';
+    var copy_btn = document.getElementById('copy_btn');
 
     file_input.addEventListener('change', () => {
       var file = file_input.files[0];
@@ -45,7 +48,14 @@
     solve_btn.addEventListener('click', () => {
       var star2 = document.getElementById('star_select').checked;
       var solver = eval(`new ${day}(text_input.value, star2)`);
-      result.innerText = `Result: ${solver.solve()}`;
+
+      solution = solver.solve();
+      result.innerText = `Result: ${solution}`;
+      copy_btn.style.display = 'block';
+    });
+
+    copy_btn.addEventListener('click', () => {
+      navigator.clipboard.writeText(solution);
     });
   </script>
 </html>
