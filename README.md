@@ -1,3 +1,3 @@
 # Advent of Code 2021
 
-Open `index.html` in GH pages to do solutions.
+View solutions here: http://aarongc.com/Advent2021/

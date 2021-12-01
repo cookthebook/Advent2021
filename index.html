@@ -4,8 +4,48 @@
   <body>
     <h1>Cook's Advent of Code 2021 Solutions</h1>
     <p>Select input file</p>
-    <input type="file" />
+    <input type="file" id="file_input" />
     <p>...or paste in your input.</p>
-    <textarea></textarea>
+    <textarea id="text_input"></textarea>
+    <form>
+      <div>
+        <label>Day</label>
+        <select id="day_select">
+          <option value="Day01">1</option>
+        </select>
+      </div>
+      <div>
+        <label>Star 2?</label>
+        <input type="checkbox" id="star_select" />
+      </div>
+      <button type="button" id="solve_btn">Solve</button>
+      <p id="result"></p>
+    </form>
   </body>
+
+  <script src="js/day01.js"></script>
+  <script>
+    var solve_btn = document.getElementById("solve_btn");
+    var day = document.getElementById('day_select').value;
+    var result = document.getElementById('result');
+
+    var file_input = document.getElementById('file_input');
+    var text_input = document.getElementById('text_input');
+
+    file_input.addEventListener('change', () => {
+      var file = file_input.files[0];
+
+      if (file) {
+        file.text().then(text => {
+          text_input.value = text;
+        });
+      }
+    });
+
+    solve_btn.addEventListener('click', () => {
+      var star2 = document.getElementById('star_select').checked;
+      var solver = eval(`new ${day}(text_input.value, star2)`);
+      result.innerText = `Result: ${solver.solve()}`;
+    });
+  </script>
 </html>
