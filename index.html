@@ -85,7 +85,7 @@
           <button type="button" id="solve_btn">Solve</button>
         </div>
         <div class="col-9 col-sm-12">
-          <div class="toast toast-primary c-hand" id="result" style="display: none;"></div>
+          <b id="result" style="font-family: monospace; display: none;"></b>
         </div>
       </div>
 
@@ -126,14 +126,7 @@
 
       solution = solver.solve();
       result.innerText = solution;
-      result.style.display = 'block'
-    });
-
-    result.addEventListener('click', () => {
-      navigator.clipboard.writeText(solution);
-      result.innerText = `${solution} Copied!`;
-
-      setTimeout(() => { result.innerText = solution }, 2000);
+      result.style.display = 'inline'
     });
   </script>
 </html>
