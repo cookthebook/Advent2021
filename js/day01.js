@@ -1,4 +1,4 @@
-class Day01 {
+class day01 {
     constructor(input, isstar2) {
         this.input = input;
         this.isstar2 = isstar2;
