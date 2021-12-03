@@ -65,7 +65,7 @@
             <option value="day02">2</option>
             <option value="day03">3</option>
           </select>
-          <a class="form-inline" href="https://github.com/cookthebook/Advent2021/blob/master/js/day01.js" id="source_link">View source</a>
+          <a class="form-inline" id="source_link">View source</a>
         </div>
       </div>
 
@@ -101,6 +101,7 @@
   <script>
     var solve_btn = document.getElementById("solve_btn");
     var day_select = document.getElementById('day_select');
+    var source_link = document.getElementById('source_link');
     var result = document.getElementById('result');
 
     var file_input = document.getElementById('file_input');
@@ -118,10 +119,10 @@
       }
     });
 
+    source_link.href = `https://github.com/cookthebook/Advent2021/blob/master/js/${day_select.value}.js`;
     day_select.addEventListener('change', () => {
-      var source_link = document.getElementById('source_link');
       source_link.href = `https://github.com/cookthebook/Advent2021/blob/master/js/${day_select.value}.js`;
-    })
+    });
 
     solve_btn.addEventListener('click', () => {
       var star2 = document.getElementById('star_select').checked;
