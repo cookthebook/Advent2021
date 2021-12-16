@@ -16,7 +16,7 @@ class day12 {
     _find_node(nodes, name) {
         for (let i = 0; i < nodes.length; i++) {
             if (nodes[i].name === name) {
-                i;
+                return i;
             }
         }
 
@@ -77,16 +77,14 @@ class day12 {
 
     _traverse(nodes, path) {
         let ret = 0;
+        let cur = path[path.length - 1];
 
-        if (nodes[path.length-1].name === 'end') {
-            for (let i = 1; i < (path.length)-1; i++) {
-                if (this._is_small(nodes[path[i]])) {
-                    return 1;
-                }
-            }
+        if (nodes[cur].name === 'end') {
+            // console.debug(`Path: ${path.map(idx => { return nodes[idx].name; }).join()}`);
+            return 1;
         }
 
-        nodes[path.length-1].paths.forEach(idx => {
+        nodes[cur].paths.forEach(idx => {
             if (
                 nodes[idx].name !== 'start' &&
                 (!this._is_small(nodes[idx]) || nodes[idx].n_visited === 0)
@@ -95,7 +93,7 @@ class day12 {
                 let new_nodes = this._clone_map(nodes);
                 new_path.push(idx);
                 new_nodes[idx].n_visited++;
-                ret += this._traverse(new_nodes, path);
+                ret += this._traverse(new_nodes, new_path);
             }
         });
 
@@ -104,16 +102,53 @@ class day12 {
 
     star1() {
         console.debug(this.nodes);
-        
-        this.nodes.forEach(node => {
-            console.debug(`${node.name}: ${this._is_small(node)}`);
-        })
 
-        ret = this._traverse(this.nodes, [this._find_node(this.nodes, 'start')]);
+        let ret = this._traverse(this.nodes, [this._find_node(this.nodes, 'start')]);
 
         return String(ret);
     }
 
+    _traverse2(nodes, path, visited_small_twice) {
+        let ret = 0;
+        let cur = path[path.length - 1];
+
+        if (nodes[cur].name === 'end') {
+            // console.debug(`Path: ${path.map(idx => { return nodes[idx].name; }).join()}`);
+            return 1;
+        }
+
+        nodes[cur].paths.forEach(idx => {
+            if (
+                /* not the start */
+                nodes[idx].name !== 'start' &&
+                (
+                    /* is big */
+                    !this._is_small(nodes[idx]) ||
+                    /* is small but traversable */
+                    (nodes[idx].n_visited === 0 || (nodes[idx].n_visited === 1 && !visited_small_twice))
+                )
+            ) {
+                let new_path = path.slice();
+                let new_nodes = this._clone_map(nodes);
+                let new_visited_small_twice = (
+                    visited_small_twice ||
+                    (this._is_small(nodes[idx]) && nodes[idx].n_visited === 1)
+                );
+
+                new_path.push(idx);
+                new_nodes[idx].n_visited++;
+                ret += this._traverse2(new_nodes, new_path, new_visited_small_twice);
+            }
+        });
+
+        return ret;
+    }
+
     star2() {
+        console.debug(this.nodes);
+
+        let ret = this._traverse2(this.nodes, [this._find_node(this.nodes, 'start')], false);
+
+        return String(ret);
     }
 }
